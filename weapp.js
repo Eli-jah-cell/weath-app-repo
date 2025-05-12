@@ -57,5 +57,46 @@ function displayWeather(data) {
         const description = data.weather[0].description;
         const iconCode = data.weather[0].icon;
         const iconUrl = 'https://openweathermap.org/img/wn/${iconCode}@4x.png';
+    
+ const temperatureHTML = `
+        <p>${temperature}°C</p>
+        `;
+
+const weatherHTML = `
+        <p>${cityName}</p>
+        <p>${description}</p>
+        `;
+
+tempDivInfo.innerHTML = temperatureHTML;
+    weatherInfoDiv.innerHTML = weatherHTML;
+    weatherIcon.src = iconUrl;
+    weatherIcon.alt = description;
+ 
+showImage();
     }
+}
+
+function displayHourlyForecast(hourlyData) {
+    const hourlyForecastDiv = document.getElementById('hourly-forecast');
+    const next24Hours = hourlyData.slice(0, 8);
+
+    next24Hours.forEach(item => {
+
+        const date = new Date(item.dt * 1000);
+        const hour = dateTime.getHours();
+        const temperature = Math.round(item.main.temp - 273.15);
+        const description = item.weather[0].icon;
+        const iconCode = item.weather[0].icon;
+        const iconUrl = 'https://openweathermap.org/img/wn/${iconCode}.png';
+
+        const hourlyItemHTML = `
+            <div class="hourly-item">
+                <span>${hour}:00</span>
+                <img src="${iconUrl}" alt="$Hourly Weather Icon">
+                <span>${temperature}°C</span>
+            </div>
+        `;
+        hourlyForecastDiv.innerHTML += hourlyItemHTML;
+    
+    });
 }
